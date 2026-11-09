@@ -1,0 +1,27 @@
+# Secrets
+.env
+
+# Python
+.venv/
+venv/
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+.Python
+
+# Agent outputs (contain deployment details)
+outputs/
+
+# Logs
+*.log
+*.txt
+failure_demo_output.txt
+
+# OS
+.DS_Store
+Thumbs.db
+
+# IDE
+.vscode/
+.idea/
