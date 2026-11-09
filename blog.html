@@ -1,0 +1,296 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>NexaCloud — Blog</title>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    :root {
+      --primary: #0a66c2; --dark: #0d1117; --mid: #161b22;
+      --accent: #58a6ff; --text: #c9d1d9; --white: #ffffff;
+    }
+    body { font-family: 'Segoe UI', sans-serif; background: var(--dark); color: var(--text); }
+
+    nav {
+      background: var(--mid); padding: 1rem 2rem; display: flex;
+      justify-content: space-between; align-items: center;
+      position: sticky; top: 0; z-index: 100; border-bottom: 1px solid #30363d;
+    }
+    .logo { font-size: 1.5rem; font-weight: 700; color: var(--accent); }
+    .logo span { color: var(--white); }
+    nav ul { list-style: none; display: flex; gap: 2rem; }
+    nav a { color: var(--text); text-decoration: none; font-size: 0.95rem; transition: color 0.2s; }
+    nav a:hover, nav a.active { color: var(--accent); }
+
+    .page-hero {
+      background: radial-gradient(ellipse at top, #0d2847 0%, var(--dark) 70%);
+      text-align: center; padding: 4rem 2rem 3rem;
+    }
+    .page-hero h1 { font-size: clamp(1.8rem, 4vw, 3rem); color: var(--white); }
+    .page-hero h1 span { color: var(--accent); }
+    .page-hero p { margin-top: 1rem; max-width: 600px; margin-inline: auto; line-height: 1.7; }
+
+    .section { padding: 4rem 2rem; max-width: 1100px; margin: 0 auto; }
+
+    /* Search */
+    .search-wrap { margin-bottom: 1.5rem; }
+    .search-wrap input {
+      width: 100%; padding: 0.7rem 1rem;
+      background: var(--mid); border: 1px solid #30363d;
+      border-radius: 6px; color: var(--white); font-size: 0.95rem; outline: none;
+      transition: border-color 0.2s;
+    }
+    .search-wrap input:focus { border-color: var(--accent); }
+    .search-wrap input::placeholder { color: #555; }
+
+    /* Tag filter */
+    .tag-filter { display: flex; gap: 0.5rem; flex-wrap: wrap; margin-bottom: 2rem; }
+    .tag-btn {
+      padding: 0.35rem 1rem; border-radius: 20px;
+      border: 1px solid #30363d; background: transparent;
+      color: var(--text); cursor: pointer; font-size: 0.85rem; transition: all 0.2s;
+    }
+    .tag-btn:hover, .tag-btn.active {
+      background: var(--accent); color: var(--dark); border-color: var(--accent);
+    }
+
+    /* Blog grid */
+    .blog-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+      gap: 1.5rem;
+    }
+    .blog-card {
+      background: var(--mid); border: 1px solid #30363d;
+      border-radius: 10px; overflow: hidden;
+      transition: border-color 0.2s, transform 0.2s;
+    }
+    .blog-card:hover { border-color: var(--accent); transform: translateY(-4px); }
+    .card-banner {
+      height: 130px; display: flex; align-items: center;
+      justify-content: center; font-size: 3rem;
+    }
+    .card-body { padding: 1.5rem; }
+    .card-meta {
+      display: flex; gap: 0.75rem; align-items: center;
+      font-size: 0.8rem; color: #555; margin-bottom: 0.75rem;
+    }
+    .card-tag {
+      background: #0d2847; color: var(--accent);
+      border: 1px solid #1a4a7a; border-radius: 20px;
+      padding: 0.15rem 0.65rem; font-size: 0.75rem;
+    }
+    .blog-card h3 { color: var(--white); font-size: 1.05rem; margin-bottom: 0.5rem; }
+    .blog-card p { font-size: 0.9rem; line-height: 1.65; margin-bottom: 1rem; }
+    .read-more {
+      color: var(--accent); font-size: 0.85rem; font-weight: 600;
+      text-decoration: none; transition: opacity 0.2s;
+    }
+    .read-more:hover { opacity: 0.7; }
+
+    /* No results */
+    #noResults {
+      display: none; text-align: center;
+      padding: 3rem; color: #555; font-size: 1rem;
+    }
+
+    footer {
+      background: var(--mid); text-align: center; padding: 1.5rem;
+      font-size: 0.85rem; border-top: 1px solid #30363d; color: #555;
+    }
+    @media (max-width: 600px) { nav ul { gap: 1rem; font-size: 0.85rem; } }
+  </style>
+</head>
+<body>
+
+  <nav>
+    <div class="logo">Nexa<span>Cloud</span></div>
+    <ul>
+      <li><a href="index.html">Home</a></li>
+      <li><a href="services.html">Services</a></li>
+      <li><a href="about.html">About</a></li>
+      <li><a href="blog.html" class="active">Blog</a></li>
+      <li><a href="contact.html">Contact</a></li>
+    </ul>
+  </nav>
+
+  <div class="page-hero">
+    <h1>NexaCloud <span>Blog</span></h1>
+    <p>Engineering insights, cloud architecture deep-dives, and updates from the NexaCloud team.</p>
+  </div>
+
+  <div class="section">
+
+    <div class="search-wrap">
+      <input type="text" id="searchInput" placeholder="Search articles..." />
+    </div>
+
+    <div class="tag-filter">
+      <button class="tag-btn active" data-tag="all">All</button>
+      <button class="tag-btn" data-tag="security">Security</button>
+      <button class="tag-btn" data-tag="cdn">CDN</button>
+      <button class="tag-btn" data-tag="ai">AI Agents</button>
+      <button class="tag-btn" data-tag="dns">DNS</button>
+      <button class="tag-btn" data-tag="devops">DevOps</button>
+    </div>
+
+    <div class="blog-grid" id="blogGrid">
+
+      <div class="blog-card" data-tag="security">
+        <div class="card-banner" style="background: linear-gradient(135deg,#0d2847,#0a3a6e);">🔒</div>
+        <div class="card-body">
+          <div class="card-meta">
+            <span class="card-tag">Security</span>
+            <span>June 2, 2025</span>
+          </div>
+          <h3>Why Private S3 Origins Matter for Static Sites</h3>
+          <p>Public S3 buckets are a leading source of data exposure. Learn how Origin Access Control
+             keeps your bucket locked while CloudFront delivers content globally.</p>
+          <a href="#" class="read-more">Read more →</a>
+        </div>
+      </div>
+
+      <div class="blog-card" data-tag="cdn">
+        <div class="card-banner" style="background: linear-gradient(135deg,#0a2a1a,#0a5a2a);">⚡</div>
+        <div class="card-body">
+          <div class="card-meta">
+            <span class="card-tag">CDN</span>
+            <span>May 20, 2025</span>
+          </div>
+          <h3>CloudFront Caching Strategies That Actually Work</h3>
+          <p>Default cache behavior leaves performance on the table. We break down TTL tuning,
+             cache invalidation, and origin shield for high-traffic static sites.</p>
+          <a href="#" class="read-more">Read more →</a>
+        </div>
+      </div>
+
+      <div class="blog-card" data-tag="ai">
+        <div class="card-banner" style="background: linear-gradient(135deg,#1a0d2e,#4a1a8a);">🤖</div>
+        <div class="card-body">
+          <div class="card-meta">
+            <span class="card-tag">AI Agents</span>
+            <span>May 8, 2025</span>
+          </div>
+          <h3>Building a Four-Agent Cloud Deployment System</h3>
+          <p>How we designed Analyst, Deployer, Validator, and Diagnostician agents that coordinate
+             via structured JSON to automate the full AWS deployment lifecycle.</p>
+          <a href="#" class="read-more">Read more →</a>
+        </div>
+      </div>
+
+      <div class="blog-card" data-tag="dns">
+        <div class="card-banner" style="background: linear-gradient(135deg,#0d2020,#0a5a5a);">🌐</div>
+        <div class="card-body">
+          <div class="card-meta">
+            <span class="card-tag">DNS</span>
+            <span>April 15, 2025</span>
+          </div>
+          <h3>Route 53 Alias Records vs CNAME: What's the Difference?</h3>
+          <p>Many engineers default to CNAME records for CloudFront distributions. Here's why
+             Route 53 Alias records are faster, cheaper, and more reliable at the zone apex.</p>
+          <a href="#" class="read-more">Read more →</a>
+        </div>
+      </div>
+
+      <div class="blog-card" data-tag="security">
+        <div class="card-banner" style="background: linear-gradient(135deg,#2a0d0d,#6a1a1a);">🛡️</div>
+        <div class="card-body">
+          <div class="card-meta">
+            <span class="card-tag">Security</span>
+            <span>April 1, 2025</span>
+          </div>
+          <h3>Enforcing HTTPS: ACM, CloudFront, and HTTP Redirect Policies</h3>
+          <p>A complete walkthrough of issuing an ACM certificate, attaching it to a CloudFront
+             distribution, and redirecting all HTTP traffic to HTTPS automatically.</p>
+          <a href="#" class="read-more">Read more →</a>
+        </div>
+      </div>
+
+      <div class="blog-card" data-tag="devops">
+        <div class="card-banner" style="background: linear-gradient(135deg,#1a1a0d,#5a5a0a);">🔁</div>
+        <div class="card-body">
+          <div class="card-meta">
+            <span class="card-tag">DevOps</span>
+            <span>March 18, 2025</span>
+          </div>
+          <h3>Reproducible Deployments with boto3 and Python Scripts</h3>
+          <p>Manual AWS console clicks are not repeatable. We walk through a Python deployment
+             script that provisions S3, CloudFront, and Route 53 from scratch every time.</p>
+          <a href="#" class="read-more">Read more →</a>
+        </div>
+      </div>
+
+      <div class="blog-card" data-tag="ai">
+        <div class="card-banner" style="background: linear-gradient(135deg,#0d1a2e,#0a3a6e);">🧠</div>
+        <div class="card-body">
+          <div class="card-meta">
+            <span class="card-tag">AI Agents</span>
+            <span>March 5, 2025</span>
+          </div>
+          <h3>Human-in-the-Loop: When Should Agents Ask for Approval?</h3>
+          <p>Autonomous agents that delete S3 buckets without asking are a liability. We explore
+             approval gate patterns that keep humans in control of consequential changes.</p>
+          <a href="#" class="read-more">Read more →</a>
+        </div>
+      </div>
+
+      <div class="blog-card" data-tag="devops">
+        <div class="card-banner" style="background: linear-gradient(135deg,#0d1f0d,#1a5a1a);">📊</div>
+        <div class="card-body">
+          <div class="card-meta">
+            <span class="card-tag">DevOps</span>
+            <span>February 20, 2025</span>
+          </div>
+          <h3>Validating Cloud Infrastructure Automatically After Every Deploy</h3>
+          <p>Deploying without validating is guessing. Our validator agent checks HTTPS, cert
+             validity, S3 access blocks, and CloudFront delivery after every deployment run.</p>
+          <a href="#" class="read-more">Read more →</a>
+        </div>
+      </div>
+
+    </div>
+
+    <div id="noResults">No articles match your search.</div>
+
+  </div>
+
+  <footer>&copy; 2025 NexaCloud, Inc. All rights reserved.</footer>
+
+  <script>
+    const searchInput = document.getElementById('searchInput');
+    const tagBtns     = document.querySelectorAll('.tag-btn');
+    const cards       = document.querySelectorAll('.blog-card');
+    const noResults   = document.getElementById('noResults');
+
+    let activeTag = 'all';
+
+    function filterCards() {
+      const query = searchInput.value.toLowerCase();
+      let visible = 0;
+
+      cards.forEach(card => {
+        const tagMatch  = activeTag === 'all' || card.dataset.tag === activeTag;
+        const textMatch = card.innerText.toLowerCase().includes(query);
+        const show = tagMatch && textMatch;
+        card.style.display = show ? 'block' : 'none';
+        if (show) visible++;
+      });
+
+      noResults.style.display = visible === 0 ? 'block' : 'none';
+    }
+
+    tagBtns.forEach(btn => {
+      btn.addEventListener('click', () => {
+        tagBtns.forEach(b => b.classList.remove('active'));
+        btn.classList.add('active');
+        activeTag = btn.dataset.tag;
+        filterCards();
+      });
+    });
+
+    searchInput.addEventListener('input', filterCards);
+  </script>
+
+</body>
+</html>

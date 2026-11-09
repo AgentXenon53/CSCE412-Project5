@@ -1,10 +1,245 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <title>My Course Site</title>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>NexaCloud — Intelligent Cloud Infrastructure</title>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --primary:   #0a66c2;
+      --dark:      #0d1117;
+      --mid:       #161b22;
+      --light:     #f0f6ff;
+      --accent:    #58a6ff;
+      --text:      #c9d1d9;
+      --white:     #ffffff;
+    }
+
+    body {
+      font-family: 'Segoe UI', sans-serif;
+      background: var(--dark);
+      color: var(--text);
+    }
+
+    /* ── NAV ── */
+    nav {
+      background: var(--mid);
+      padding: 1rem 2rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      border-bottom: 1px solid #30363d;
+    }
+    .logo { font-size: 1.5rem; font-weight: 700; color: var(--accent); }
+    .logo span { color: var(--white); }
+    nav ul { list-style: none; display: flex; gap: 2rem; }
+    nav a {
+      color: var(--text);
+      text-decoration: none;
+      font-size: 0.95rem;
+      transition: color 0.2s;
+    }
+    nav a:hover, nav a.active { color: var(--accent); }
+
+    /* ── HERO ── */
+    .hero {
+      min-height: 90vh;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      text-align: center;
+      padding: 4rem 2rem;
+      background: radial-gradient(ellipse at top, #0d2847 0%, var(--dark) 70%);
+    }
+    .hero h1 {
+      font-size: clamp(2rem, 5vw, 3.5rem);
+      color: var(--white);
+      line-height: 1.2;
+      max-width: 800px;
+    }
+    .hero h1 span { color: var(--accent); }
+    .hero p {
+      margin: 1.5rem 0 2.5rem;
+      font-size: 1.15rem;
+      max-width: 600px;
+      line-height: 1.7;
+    }
+    .btn {
+      display: inline-block;
+      padding: 0.8rem 2rem;
+      border-radius: 6px;
+      font-size: 1rem;
+      font-weight: 600;
+      text-decoration: none;
+      transition: background 0.2s, transform 0.2s;
+    }
+    .btn-primary { background: var(--primary); color: var(--white); }
+    .btn-primary:hover { background: var(--accent); transform: translateY(-2px); }
+    .btn-outline {
+      border: 2px solid var(--accent);
+      color: var(--accent);
+      margin-left: 1rem;
+    }
+    .btn-outline:hover { background: var(--accent); color: var(--dark); }
+
+    /* ── STATS BAR ── */
+    .stats {
+      display: flex;
+      justify-content: center;
+      gap: 4rem;
+      padding: 2.5rem 2rem;
+      background: var(--mid);
+      border-top: 1px solid #30363d;
+      border-bottom: 1px solid #30363d;
+      flex-wrap: wrap;
+    }
+    .stat h3 { font-size: 2rem; color: var(--accent); }
+    .stat p  { font-size: 0.85rem; color: var(--text); margin-top: 0.25rem; }
+
+    /* ── FEATURES ── */
+    .section { padding: 5rem 2rem; max-width: 1100px; margin: 0 auto; }
+    .section-title {
+      text-align: center;
+      font-size: 2rem;
+      color: var(--white);
+      margin-bottom: 0.75rem;
+    }
+    .section-sub {
+      text-align: center;
+      color: var(--text);
+      margin-bottom: 3rem;
+    }
+    .grid-3 {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 1.5rem;
+    }
+    .card {
+      background: var(--mid);
+      border: 1px solid #30363d;
+      border-radius: 10px;
+      padding: 2rem;
+      transition: border-color 0.2s, transform 0.2s;
+    }
+    .card:hover { border-color: var(--accent); transform: translateY(-4px); }
+    .card-icon { font-size: 2rem; margin-bottom: 1rem; }
+    .card h3 { color: var(--white); margin-bottom: 0.5rem; }
+    .card p   { line-height: 1.6; font-size: 0.95rem; }
+
+    /* ── CTA STRIP ── */
+    .cta-strip {
+      background: linear-gradient(135deg, #0a2a4a, #0a66c2);
+      text-align: center;
+      padding: 4rem 2rem;
+    }
+    .cta-strip h2 { color: var(--white); font-size: 2rem; margin-bottom: 1rem; }
+    .cta-strip p  { color: #cde; margin-bottom: 2rem; }
+
+    /* ── FOOTER ── */
+    footer {
+      background: var(--mid);
+      text-align: center;
+      padding: 1.5rem;
+      font-size: 0.85rem;
+      border-top: 1px solid #30363d;
+      color: #555;
+    }
+
+    @media (max-width: 600px) {
+      nav ul { gap: 1rem; font-size: 0.85rem; }
+      .stats { gap: 2rem; }
+    }
+  </style>
 </head>
 <body>
-    <h1>Testing</h1>
+
+  <nav>
+    <div class="logo">Nexa<span>Cloud</span></div>
+    <ul>
+      <li><a href="index.html" class="active">Home</a></li>
+      <li><a href="services.html">Services</a></li>
+      <li><a href="about.html">About</a></li>
+      <li><a href="blog.html">Blog</a></li>
+      <li><a href="contact.html">Contact</a></li>
+    </ul>
+  </nav>
+
+  <section class="hero">
+    <h1>Cloud Infrastructure <span>Built for Scale</span></h1>
+    <p>NexaCloud delivers secure, high-performance cloud solutions powered by AWS.
+       From storage to delivery, we automate the complexity so your team can focus
+       on what matters.</p>
+    <div>
+      <a href="services.html" class="btn btn-primary">Explore Services</a>
+      <a href="contact.html" class="btn btn-outline">Get in Touch</a>
+    </div>
+  </section>
+
+  <div class="stats">
+    <div class="stat"><h3>99.99%</h3><p>Uptime SLA</p></div>
+    <div class="stat"><h3>150+</h3><p>Enterprise Clients</p></div>
+    <div class="stat"><h3>12</h3><p>AWS Regions</p></div>
+    <div class="stat"><h3>&lt;20ms</h3><p>Avg. Latency</p></div>
+  </div>
+
+  <div class="section">
+    <h2 class="section-title">Why NexaCloud?</h2>
+    <p class="section-sub">Purpose-built solutions for modern cloud engineering teams.</p>
+    <div class="grid-3">
+      <div class="card">
+        <div class="card-icon">🔒</div>
+        <h3>Security First</h3>
+        <p>Every deployment enforces least-privilege IAM, private S3 origins, and TLS
+           certificates managed through AWS ACM.</p>
+      </div>
+      <div class="card">
+        <div class="card-icon">⚡</div>
+        <h3>Global Delivery</h3>
+        <p>CloudFront edge locations ensure sub-second load times for users anywhere
+           in the world.</p>
+      </div>
+      <div class="card">
+        <div class="card-icon">🤖</div>
+        <h3>AI-Assisted Ops</h3>
+        <p>Our multi-agent AI system automates deployment, validation, and failure
+           diagnosis with human-in-the-loop controls.</p>
+      </div>
+      <div class="card">
+        <div class="card-icon">📈</div>
+        <h3>Auto-Scaling</h3>
+        <p>Architectures that grow with your traffic — zero manual intervention
+           required during demand spikes.</p>
+      </div>
+      <div class="card">
+        <div class="card-icon">🔁</div>
+        <h3>Reproducible Deploys</h3>
+        <p>Infrastructure-as-code scripts make every deployment auditable,
+           repeatable, and version-controlled.</p>
+      </div>
+      <div class="card">
+        <div class="card-icon">📊</div>
+        <h3>Observability</h3>
+        <p>Real-time dashboards, structured logs, and alerting keep your team
+           informed at every layer of the stack.</p>
+      </div>
+    </div>
+  </div>
+
+  <div class="cta-strip">
+    <h2>Ready to modernize your infrastructure?</h2>
+    <p>Talk to a NexaCloud engineer and get a free architecture review.</p>
+    <a href="contact.html" class="btn btn-primary">Request a Consultation</a>
+  </div>
+
+  <footer>
+    &copy; 2025 NexaCloud, Inc. All rights reserved.
+  </footer>
+
 </body>
 </html>

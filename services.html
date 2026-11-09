@@ -1,0 +1,398 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>NexaCloud — Services</title>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --primary:  #0a66c2;
+      --dark:     #0d1117;
+      --mid:      #161b22;
+      --light:    #f0f6ff;
+      --accent:   #58a6ff;
+      --text:     #c9d1d9;
+      --white:    #ffffff;
+    }
+
+    body { font-family: 'Segoe UI', sans-serif; background: var(--dark); color: var(--text); }
+
+    /* ── NAV ── */
+    nav {
+      background: var(--mid);
+      padding: 1rem 2rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      border-bottom: 1px solid #30363d;
+    }
+    .logo { font-size: 1.5rem; font-weight: 700; color: var(--accent); }
+    .logo span { color: var(--white); }
+    nav ul { list-style: none; display: flex; gap: 2rem; }
+    nav a { color: var(--text); text-decoration: none; font-size: 0.95rem; transition: color 0.2s; }
+    nav a:hover, nav a.active { color: var(--accent); }
+
+    /* ── PAGE HERO ── */
+    .page-hero {
+      background: radial-gradient(ellipse at top, #0d2847 0%, var(--dark) 70%);
+      text-align: center;
+      padding: 4rem 2rem 3rem;
+    }
+    .page-hero h1 { font-size: clamp(1.8rem, 4vw, 3rem); color: var(--white); }
+    .page-hero h1 span { color: var(--accent); }
+    .page-hero p { margin-top: 1rem; max-width: 600px; margin-inline: auto; line-height: 1.7; }
+
+    /* ── SECTIONS ── */
+    .section { padding: 4rem 2rem; max-width: 1100px; margin: 0 auto; }
+    .section-title { font-size: 1.6rem; color: var(--white); margin-bottom: 0.5rem; }
+    .section-sub { color: var(--text); margin-bottom: 2.5rem; }
+
+    /* ── SERVICE CARDS ── */
+    .services-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+      gap: 1.5rem;
+    }
+    .service-card {
+      background: var(--mid);
+      border: 1px solid #30363d;
+      border-radius: 10px;
+      padding: 2rem;
+      transition: border-color 0.2s, transform 0.2s;
+    }
+    .service-card:hover { border-color: var(--accent); transform: translateY(-4px); }
+    .service-card .icon { font-size: 2.2rem; margin-bottom: 1rem; }
+    .service-card h3 { color: var(--white); margin-bottom: 0.5rem; font-size: 1.15rem; }
+    .service-card p { line-height: 1.65; font-size: 0.95rem; margin-bottom: 1rem; }
+    .tag-list { display: flex; flex-wrap: wrap; gap: 0.4rem; }
+    .tag {
+      background: #0d2847;
+      color: var(--accent);
+      border: 1px solid #1a4a7a;
+      border-radius: 20px;
+      padding: 0.2rem 0.75rem;
+      font-size: 0.78rem;
+    }
+
+    /* ── PRICING TIERS ── */
+    .pricing-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+      gap: 1.5rem;
+      margin-top: 1rem;
+    }
+    .pricing-card {
+      background: var(--mid);
+      border: 1px solid #30363d;
+      border-radius: 10px;
+      padding: 2rem;
+      text-align: center;
+      position: relative;
+      transition: border-color 0.2s;
+    }
+    .pricing-card.featured {
+      border-color: var(--accent);
+    }
+    .pricing-card .badge {
+      position: absolute;
+      top: -12px;
+      left: 50%;
+      transform: translateX(-50%);
+      background: var(--accent);
+      color: var(--dark);
+      font-size: 0.75rem;
+      font-weight: 700;
+      padding: 0.2rem 0.9rem;
+      border-radius: 20px;
+    }
+    .pricing-card h3 { color: var(--white); font-size: 1.2rem; margin-bottom: 0.75rem; }
+    .price { font-size: 2.2rem; color: var(--accent); font-weight: 700; }
+    .price span { font-size: 1rem; color: var(--text); font-weight: 400; }
+    .pricing-card ul {
+      list-style: none;
+      margin: 1.5rem 0;
+      text-align: left;
+    }
+    .pricing-card ul li {
+      padding: 0.4rem 0;
+      font-size: 0.9rem;
+      border-bottom: 1px solid #30363d;
+    }
+    .pricing-card ul li::before { content: "✓ "; color: var(--accent); }
+    .btn {
+      display: inline-block;
+      padding: 0.7rem 1.8rem;
+      border-radius: 6px;
+      font-size: 0.95rem;
+      font-weight: 600;
+      text-decoration: none;
+      transition: background 0.2s, transform 0.2s;
+    }
+    .btn-primary { background: var(--primary); color: var(--white); }
+    .btn-primary:hover { background: var(--accent); transform: translateY(-2px); }
+    .btn-outline { border: 2px solid var(--accent); color: var(--accent); }
+    .btn-outline:hover { background: var(--accent); color: var(--dark); }
+
+    /* ── INTERACTIVE FILTER ── */
+    .filter-bar {
+      display: flex;
+      gap: 0.75rem;
+      flex-wrap: wrap;
+      margin-bottom: 2rem;
+    }
+    .filter-btn {
+      padding: 0.45rem 1.2rem;
+      border-radius: 20px;
+      border: 1px solid #30363d;
+      background: transparent;
+      color: var(--text);
+      cursor: pointer;
+      font-size: 0.9rem;
+      transition: all 0.2s;
+    }
+    .filter-btn:hover, .filter-btn.active {
+      background: var(--accent);
+      color: var(--dark);
+      border-color: var(--accent);
+    }
+
+    /* ── CTA STRIP ── */
+    .cta-strip {
+      background: linear-gradient(135deg, #0a2a4a, #0a66c2);
+      text-align: center;
+      padding: 4rem 2rem;
+    }
+    .cta-strip h2 { color: var(--white); font-size: 2rem; margin-bottom: 1rem; }
+    .cta-strip p  { color: #cde; margin-bottom: 2rem; }
+
+    footer {
+      background: var(--mid);
+      text-align: center;
+      padding: 1.5rem;
+      font-size: 0.85rem;
+      border-top: 1px solid #30363d;
+      color: #555;
+    }
+
+    @media (max-width: 600px) {
+      nav ul { gap: 1rem; font-size: 0.85rem; }
+    }
+  </style>
+</head>
+<body>
+
+  <nav>
+    <div class="logo">Nexa<span>Cloud</span></div>
+    <ul>
+      <li><a href="index.html">Home</a></li>
+      <li><a href="services.html" class="active">Services</a></li>
+      <li><a href="about.html">About</a></li>
+      <li><a href="blog.html">Blog</a></li>
+      <li><a href="contact.html">Contact</a></li>
+    </ul>
+  </nav>
+
+  <div class="page-hero">
+    <h1>Our <span>Services</span></h1>
+    <p>End-to-end cloud engineering services built on AWS. From static hosting to
+       AI-assisted deployment automation — we cover the full stack.</p>
+  </div>
+
+  <!-- ── SERVICE LISTING ── -->
+  <div class="section">
+    <h2 class="section-title">What We Offer</h2>
+    <p class="section-sub">Filter by category to find the right service for your needs.</p>
+
+    <!-- JS Interactive Feature: category filter -->
+    <div class="filter-bar">
+      <button class="filter-btn active" data-filter="all">All</button>
+      <button class="filter-btn" data-filter="hosting">Hosting</button>
+      <button class="filter-btn" data-filter="security">Security</button>
+      <button class="filter-btn" data-filter="automation">Automation</button>
+      <button class="filter-btn" data-filter="dns">DNS</button>
+    </div>
+
+    <div class="services-grid" id="servicesGrid">
+
+      <div class="service-card" data-category="hosting">
+        <div class="icon">🗄️</div>
+        <h3>Static Site Hosting</h3>
+        <p>Deploy fast, reliable static websites on Amazon S3 with private bucket
+           policies and versioned deployments.</p>
+        <div class="tag-list">
+          <span class="tag">S3</span>
+          <span class="tag">Static</span>
+          <span class="tag">Versioning</span>
+        </div>
+      </div>
+
+      <div class="service-card" data-category="hosting">
+        <div class="icon">⚡</div>
+        <h3>CloudFront CDN</h3>
+        <p>Serve content from 450+ global edge locations. Reduce latency, absorb
+           traffic spikes, and cache assets intelligently.</p>
+        <div class="tag-list">
+          <span class="tag">CloudFront</span>
+          <span class="tag">CDN</span>
+          <span class="tag">Caching</span>
+        </div>
+      </div>
+
+      <div class="service-card" data-category="security">
+        <div class="icon">🔒</div>
+        <h3>TLS Certificate Management</h3>
+        <p>Issue and auto-renew TLS certificates via AWS ACM. Enforce HTTPS and
+           HTTP-to-HTTPS redirects across all endpoints.</p>
+        <div class="tag-list">
+          <span class="tag">ACM</span>
+          <span class="tag">HTTPS</span>
+          <span class="tag">TLS</span>
+        </div>
+      </div>
+
+      <div class="service-card" data-category="security">
+        <div class="icon">🛡️</div>
+        <h3>Origin Access Control</h3>
+        <p>Lock down S3 buckets so only CloudFront can read content. No anonymous
+           public access — ever.</p>
+        <div class="tag-list">
+          <span class="tag">OAC</span>
+          <span class="tag">IAM</span>
+          <span class="tag">S3 Policy</span>
+        </div>
+      </div>
+
+      <div class="service-card" data-category="dns">
+        <div class="icon">🌐</div>
+        <h3>DNS Configuration</h3>
+        <p>Manage domain records with Amazon Route 53. Alias records, health checks,
+           and failover routing included.</p>
+        <div class="tag-list">
+          <span class="tag">Route 53</span>
+          <span class="tag">DNS</span>
+          <span class="tag">Alias</span>
+        </div>
+      </div>
+
+      <div class="service-card" data-category="automation">
+        <div class="icon">🤖</div>
+        <h3>AI-Assisted Deployment</h3>
+        <p>Multi-agent AI systems that plan, deploy, validate, and diagnose your
+           cloud infrastructure — with human approval gates for sensitive changes.</p>
+        <div class="tag-list">
+          <span class="tag">Agents</span>
+          <span class="tag">LLM</span>
+          <span class="tag">Automation</span>
+        </div>
+      </div>
+
+      <div class="service-card" data-category="automation">
+        <div class="icon">✅</div>
+        <h3>Infrastructure Validation</h3>
+        <p>Automated checks for HTTPS, certificate validity, S3 access restrictions,
+           CloudFront delivery, and DNS resolution.</p>
+        <div class="tag-list">
+          <span class="tag">Validation</span>
+          <span class="tag">Monitoring</span>
+          <span class="tag">Logs</span>
+        </div>
+      </div>
+
+      <div class="service-card" data-category="automation">
+        <div class="icon">🔁</div>
+        <h3>Failure Diagnosis & Recovery</h3>
+        <p>Detect configuration failures, identify root causes via AI analysis,
+           propose corrective actions, and re-validate post-fix.</p>
+        <div class="tag-list">
+          <span class="tag">Diagnostics</span>
+          <span class="tag">Recovery</span>
+          <span class="tag">Agents</span>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- ── PRICING ── -->
+  <div class="section" style="border-top: 1px solid #30363d;">
+    <h2 class="section-title">Pricing Tiers</h2>
+    <p class="section-sub">Simple, transparent pricing with no hidden fees.</p>
+    <div class="pricing-grid">
+      <div class="pricing-card">
+        <h3>Starter</h3>
+        <div class="price">$49<span>/mo</span></div>
+        <ul>
+          <li>Static site hosting</li>
+          <li>CloudFront CDN</li>
+          <li>1 custom domain</li>
+          <li>Basic TLS certificate</li>
+          <li>Community support</li>
+        </ul>
+        <a href="contact.html" class="btn btn-outline">Get Started</a>
+      </div>
+      <div class="pricing-card featured">
+        <div class="badge">Most Popular</div>
+        <h3>Professional</h3>
+        <div class="price">$149<span>/mo</span></div>
+        <ul>
+          <li>Everything in Starter</li>
+          <li>AI-assisted deployment</li>
+          <li>Automated validation</li>
+          <li>Failure diagnosis agent</li>
+          <li>Priority support</li>
+        </ul>
+        <a href="contact.html" class="btn btn-primary">Get Started</a>
+      </div>
+      <div class="pricing-card">
+        <h3>Enterprise</h3>
+        <div class="price">Custom</div>
+        <ul>
+          <li>Everything in Professional</li>
+          <li>Multi-region deployment</li>
+          <li>Custom agent workflows</li>
+          <li>SLA guarantees</li>
+          <li>Dedicated engineer</li>
+        </ul>
+        <a href="contact.html" class="btn btn-outline">Contact Us</a>
+      </div>
+    </div>
+  </div>
+
+  <div class="cta-strip">
+    <h2>Not sure which service you need?</h2>
+    <p>Talk to our team and we'll recommend the right solution for your use case.</p>
+    <a href="contact.html" class="btn btn-primary">Get a Free Consultation</a>
+  </div>
+
+  <footer>
+    &copy; 2025 NexaCloud, Inc. All rights reserved.
+  </footer>
+
+  <!-- ── JS: Category Filter ── -->
+  <script>
+    const filterBtns = document.querySelectorAll('.filter-btn');
+    const cards      = document.querySelectorAll('.service-card');
+
+    filterBtns.forEach(btn => {
+      btn.addEventListener('click', () => {
+        // Update active button
+        filterBtns.forEach(b => b.classList.remove('active'));
+        btn.classList.add('active');
+
+        const filter = btn.dataset.filter;
+
+        cards.forEach(card => {
+          const match = filter === 'all' || card.dataset.category === filter;
+          card.style.display = match ? 'block' : 'none';
+        });
+      });
+    });
+  </script>
+
+</body>
+</html>

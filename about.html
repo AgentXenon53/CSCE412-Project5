@@ -1,0 +1,291 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>NexaCloud — About</title>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    :root {
+      --primary: #0a66c2; --dark: #0d1117; --mid: #161b22;
+      --accent: #58a6ff; --text: #c9d1d9; --white: #ffffff;
+    }
+    body { font-family: 'Segoe UI', sans-serif; background: var(--dark); color: var(--text); }
+
+    nav {
+      background: var(--mid); padding: 1rem 2rem; display: flex;
+      justify-content: space-between; align-items: center;
+      position: sticky; top: 0; z-index: 100; border-bottom: 1px solid #30363d;
+    }
+    .logo { font-size: 1.5rem; font-weight: 700; color: var(--accent); }
+    .logo span { color: var(--white); }
+    nav ul { list-style: none; display: flex; gap: 2rem; }
+    nav a { color: var(--text); text-decoration: none; font-size: 0.95rem; transition: color 0.2s; }
+    nav a:hover, nav a.active { color: var(--accent); }
+
+    .page-hero {
+      background: radial-gradient(ellipse at top, #0d2847 0%, var(--dark) 70%);
+      text-align: center; padding: 4rem 2rem 3rem;
+    }
+    .page-hero h1 { font-size: clamp(1.8rem, 4vw, 3rem); color: var(--white); }
+    .page-hero h1 span { color: var(--accent); }
+    .page-hero p { margin-top: 1rem; max-width: 600px; margin-inline: auto; line-height: 1.7; }
+
+    .section { padding: 4rem 2rem; max-width: 1100px; margin: 0 auto; }
+    .section-title { font-size: 1.6rem; color: var(--white); margin-bottom: 0.5rem; }
+    .section-sub { color: var(--text); margin-bottom: 2.5rem; }
+
+    /* Mission split */
+    .split {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 3rem;
+      align-items: center;
+    }
+    .split img-placeholder {
+      display: block;
+      background: linear-gradient(135deg, #0d2847, #0a66c2);
+      border-radius: 12px;
+      height: 300px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 5rem;
+    }
+    .split-visual {
+      background: linear-gradient(135deg, #0d2847, #0a3a6e);
+      border-radius: 12px;
+      height: 300px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 5rem;
+      border: 1px solid #30363d;
+    }
+    .split-text h2 { font-size: 1.6rem; color: var(--white); margin-bottom: 1rem; }
+    .split-text p { line-height: 1.75; margin-bottom: 1rem; }
+
+    /* Values */
+    .values-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+      gap: 1.5rem;
+    }
+    .value-card {
+      background: var(--mid);
+      border: 1px solid #30363d;
+      border-radius: 10px;
+      padding: 1.75rem;
+      text-align: center;
+      transition: border-color 0.2s, transform 0.2s;
+    }
+    .value-card:hover { border-color: var(--accent); transform: translateY(-4px); }
+    .value-card .icon { font-size: 2rem; margin-bottom: 0.75rem; }
+    .value-card h3 { color: var(--white); margin-bottom: 0.5rem; }
+    .value-card p { font-size: 0.9rem; line-height: 1.6; }
+
+    /* Team */
+    .team-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 1.5rem;
+    }
+    .team-card {
+      background: var(--mid);
+      border: 1px solid #30363d;
+      border-radius: 10px;
+      padding: 2rem 1.5rem;
+      text-align: center;
+      transition: border-color 0.2s, transform 0.2s;
+    }
+    .team-card:hover { border-color: var(--accent); transform: translateY(-4px); }
+    .avatar {
+      width: 70px; height: 70px; border-radius: 50%;
+      background: linear-gradient(135deg, #0a66c2, #58a6ff);
+      display: flex; align-items: center; justify-content: center;
+      font-size: 1.8rem; margin: 0 auto 1rem;
+    }
+    .team-card h3 { color: var(--white); font-size: 1rem; margin-bottom: 0.25rem; }
+    .team-card .role { color: var(--accent); font-size: 0.85rem; margin-bottom: 0.5rem; }
+    .team-card p { font-size: 0.85rem; line-height: 1.5; }
+
+    /* Timeline */
+    .timeline { position: relative; padding-left: 2rem; }
+    .timeline::before {
+      content: '';
+      position: absolute;
+      left: 0; top: 0; bottom: 0;
+      width: 2px;
+      background: linear-gradient(to bottom, var(--accent), transparent);
+    }
+    .timeline-item { position: relative; margin-bottom: 2rem; padding-left: 1.5rem; }
+    .timeline-item::before {
+      content: '';
+      position: absolute;
+      left: -2rem; top: 0.4rem;
+      width: 12px; height: 12px;
+      border-radius: 50%;
+      background: var(--accent);
+      border: 2px solid var(--dark);
+    }
+    .timeline-item .year { color: var(--accent); font-size: 0.85rem; font-weight: 600; margin-bottom: 0.25rem; }
+    .timeline-item h3 { color: var(--white); margin-bottom: 0.25rem; }
+    .timeline-item p { font-size: 0.9rem; line-height: 1.6; }
+
+    .cta-strip {
+      background: linear-gradient(135deg, #0a2a4a, #0a66c2);
+      text-align: center; padding: 4rem 2rem;
+    }
+    .cta-strip h2 { color: var(--white); font-size: 2rem; margin-bottom: 1rem; }
+    .cta-strip p  { color: #cde; margin-bottom: 2rem; }
+    .btn { display: inline-block; padding: 0.8rem 2rem; border-radius: 6px; font-size: 1rem; font-weight: 600; text-decoration: none; transition: background 0.2s, transform 0.2s; }
+    .btn-primary { background: var(--primary); color: var(--white); }
+    .btn-primary:hover { background: var(--accent); transform: translateY(-2px); }
+
+    footer {
+      background: var(--mid); text-align: center; padding: 1.5rem;
+      font-size: 0.85rem; border-top: 1px solid #30363d; color: #555;
+    }
+    @media (max-width: 768px) {
+      .split { grid-template-columns: 1fr; }
+      .split-visual { height: 180px; }
+    }
+    @media (max-width: 600px) { nav ul { gap: 1rem; font-size: 0.85rem; } }
+  </style>
+</head>
+<body>
+
+  <nav>
+    <div class="logo">Nexa<span>Cloud</span></div>
+    <ul>
+      <li><a href="index.html">Home</a></li>
+      <li><a href="services.html">Services</a></li>
+      <li><a href="about.html" class="active">About</a></li>
+      <li><a href="blog.html">Blog</a></li>
+      <li><a href="contact.html">Contact</a></li>
+    </ul>
+  </nav>
+
+  <div class="page-hero">
+    <h1>About <span>NexaCloud</span></h1>
+    <p>We are a cloud engineering company on a mission to make secure, automated
+       infrastructure accessible to every organization.</p>
+  </div>
+
+  <!-- Mission -->
+  <div class="section">
+    <div class="split">
+      <div class="split-text">
+        <h2>Our Mission</h2>
+        <p>NexaCloud was founded on a simple belief: cloud infrastructure should be
+           secure by default, reproducible by design, and understandable to the teams
+           that depend on it.</p>
+        <p>We combine AWS best practices with AI-assisted automation to remove the
+           guesswork from deployment, validation, and incident response — so engineering
+           teams can ship with confidence.</p>
+      </div>
+      <div class="split-visual">☁️</div>
+    </div>
+  </div>
+
+  <!-- Values -->
+  <div class="section" style="border-top: 1px solid #30363d;">
+    <h2 class="section-title">Our Values</h2>
+    <p class="section-sub">The principles that guide every decision we make.</p>
+    <div class="values-grid">
+      <div class="value-card">
+        <div class="icon">🔒</div>
+        <h3>Security First</h3>
+        <p>Every architecture we design enforces least-privilege access and
+           private-by-default storage.</p>
+      </div>
+      <div class="value-card">
+        <div class="icon">🔁</div>
+        <h3>Reproducibility</h3>
+        <p>No undocumented manual steps. Every deployment is scripted, versioned,
+           and auditable.</p>
+      </div>
+      <div class="value-card">
+        <div class="icon">🤝</div>
+        <h3>Human in the Loop</h3>
+        <p>AI agents propose and prepare — humans approve consequential changes.
+           Always.</p>
+      </div>
+      <div class="value-card">
+        <div class="icon">📖</div>
+        <h3>Transparency</h3>
+        <p>Full logs of agent actions, tool calls, and outcomes — no black boxes.</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- Team -->
+  <div class="section" style="border-top: 1px solid #30363d;">
+    <h2 class="section-title">The Team</h2>
+    <p class="section-sub">Cloud engineers, AI researchers, and infrastructure specialists.</p>
+    <div class="team-grid">
+      <div class="team-card">
+        <div class="avatar">👩‍💻</div>
+        <h3>Priya Anand</h3>
+        <div class="role">CEO & Cloud Architect</div>
+        <p>10+ years designing AWS infrastructure for Fortune 500 companies.</p>
+      </div>
+      <div class="team-card">
+        <div class="avatar">👨‍🔬</div>
+        <h3>Marcus Lee</h3>
+        <div class="role">Head of AI Engineering</div>
+        <p>Specializes in multi-agent systems and LLM-driven automation pipelines.</p>
+      </div>
+      <div class="team-card">
+        <div class="avatar">👩‍🔧</div>
+        <h3>Fatima Osei</h3>
+        <div class="role">Lead DevOps Engineer</div>
+        <p>Infrastructure-as-code advocate and CloudFront/S3 deployment expert.</p>
+      </div>
+      <div class="team-card">
+        <div class="avatar">👨‍💼</div>
+        <h3>Daniel Reyes</h3>
+        <div class="role">Security Engineer</div>
+        <p>Focuses on IAM policy design, TLS configuration, and compliance auditing.</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- Timeline -->
+  <div class="section" style="border-top: 1px solid #30363d;">
+    <h2 class="section-title">Company Timeline</h2>
+    <p class="section-sub">From startup to trusted cloud partner.</p>
+    <div class="timeline">
+      <div class="timeline-item">
+        <div class="year">2019</div>
+        <h3>Founded</h3>
+        <p>NexaCloud launched with a focus on static site hosting and CDN optimization.</p>
+      </div>
+      <div class="timeline-item">
+        <div class="year">2021</div>
+        <h3>AI Automation Initiative</h3>
+        <p>Began research into LLM-assisted deployment pipelines and agent-based ops.</p>
+      </div>
+      <div class="timeline-item">
+        <div class="year">2023</div>
+        <h3>Multi-Agent Platform Launch</h3>
+        <p>Released the first version of our four-agent deployment system to enterprise clients.</p>
+      </div>
+      <div class="timeline-item">
+        <div class="year">2025</div>
+        <h3>150+ Clients Worldwide</h3>
+        <p>Now serving clients across 12 AWS regions with 99.99% uptime SLA.</p>
+      </div>
+    </div>
+  </div>
+
+  <div class="cta-strip">
+    <h2>Want to work with us?</h2>
+    <p>We're always looking for talented engineers and new client partnerships.</p>
+    <a href="contact.html" class="btn btn-primary">Get in Touch</a>
+  </div>
+
+  <footer>&copy; 2025 NexaCloud, Inc. All rights reserved.</footer>
+
+</body>
+</html>
